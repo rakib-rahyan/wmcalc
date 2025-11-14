@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ওয়ারকারদের কাজের হিসাব</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="workers-page">
+  <header class="workers-header">
+    <h1 class="workers-title">এম ভি নাজেরা (MV Nazera)</h1>
+    <div class="workers-right">
+      <div class="workers-subline">
+        <span class="sub-text">ওয়ারকারদের কাজের হিসাব</span>
+        <span class="date-text" id="workersToday">আজকের তারিখ: --</span>
+      </div>
+      <div class="workers-actions">
+        <button type="button" id="workersAddBtn" class="btn add-btn">Add</button>
+        <button type="button" id="workersPdfBtn" class="btn print-btn">Download PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="workers-main">
+    <div class="table-wrapper">
+      <table class="workers-table" id="workersTable" aria-describedby="workersToday">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Worker Type</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Number of Workers</th>
+          </tr>
+        </thead>
+        <tbody id="workersTbody">
+          <!-- Dynamic date groups inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="workersModalOverlay" aria-hidden="true">
+    <div class="modal workers-modal" role="dialog" aria-modal="true" aria-labelledby="workersModalTitle">
+      <div class="modal-header">
+        <h2 id="workersModalTitle">Add / Update Workers</h2>
+        <button type="button" class="modal-close" id="workersModalClose" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label for="workersDateInput">Date</label>
+          <input id="workersDateInput" type="date" />
+        </div>
+        <fieldset class="worker-group">
+          <legend>ওয়েল্ডার</legend>
+          <div class="form-row">
+            <label for="welderStart">Start Time</label>
+            <input id="welderStart" type="time" />
+          </div>
+          <div class="form-row">
+            <label for="welderEnd">End Time</label>
+            <input id="welderEnd" type="time" />
+          </div>
+          <div class="form-row">
+            <label for="welderCount">Number of Workers</label>
+            <input id="welderCount" type="number" min="0" step="1" placeholder="0" />
+          </div>
+        </fieldset>
+        <fieldset class="worker-group">
+          <legend>ফিটার</legend>
+          <div class="form-row">
+            <label for="fitterStart">Start Time</label>
+            <input id="fitterStart" type="time" />
+          </div>
+          <div class="form-row">
+            <label for="fitterEnd">End Time</label>
+            <input id="fitterEnd" type="time" />
+          </div>
+          <div class="form-row">
+            <label for="fitterCount">Number of Workers</label>
+            <input id="fitterCount" type="number" min="0" step="1" placeholder="0" />
+          </div>
+        </fieldset>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="workersModalCancel" class="btn danger-btn">Cancel</button>
+        <button type="button" id="workersModalSave" class="btn save-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="workers.js"></script>
+</body>
+</html>
