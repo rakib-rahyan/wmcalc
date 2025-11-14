@@ -36,7 +36,7 @@
     return `${day}-${monthEn}-${dateObj.getFullYear()}`;
   }
   function displayToday() {
-    todaySpan.textContent = `আজকের তারিখ: ${toDisplayDate(todayYYYYMMDD())}`;
+    todaySpan.textContent = toDisplayDate(todayYYYYMMDD());
   }
 
   displayToday();

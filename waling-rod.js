@@ -162,7 +162,7 @@
     title.textContent = 'এম ভি নাজেরা (MV Nazera)';
     title.style.margin = '0 0 4px 0';
     const subtitle = document.createElement('div');
-    subtitle.textContent = 'Vortic Marine Welding Rod, 3.2';
+    subtitle.textContent = 'ওয়েল্ডিং রডের হিসাব';
     subtitle.style.marginBottom = '12px';
     const dateLine = document.createElement('div');
     dateLine.textContent = 'তারিখ: ' + (document.getElementById('currentDate').value || '');

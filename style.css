@@ -76,11 +76,16 @@ body {
   .calc-card { padding: 40px 28px; }
 }
 
+/* Unified Page Header */
+.app-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:16px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; box-shadow:var(--shadow-soft); }
+.app-header .header-left { display:flex; flex-direction:column; }
+.app-header .page-title { margin:0 0 4px; font-size:clamp(1.7rem,3.6vw,2.4rem); font-weight:700; color:#182c41; }
+.app-header .page-subtitle { margin:0; font-size:clamp(.95rem,2.2vw,1.15rem); font-weight:600; color:#3a4754; }
+.app-header .header-right { display:flex; align-items:center; gap:10px; font-size:.9rem; }
+.header-meta { display:flex; align-items:center; gap:8px; color:#5c6773; font-weight:600; }
+.date-badge { background:#f1f5fb; border:1px solid #d7e2eb; padding:6px 10px; border-radius:var(--radius-sm); }
+
 /* Welding Rod Page Styles */
-.welding-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:16px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; box-shadow:var(--shadow-soft); }
-.welding-header .page-title { margin:0 0 4px; font-size:clamp(1.7rem,3.6vw,2.4rem); font-weight:700; color:#182c41; }
-.welding-header .page-subtitle { margin:0; font-size:clamp(.95rem,2.2vw,1.15rem); font-weight:500; color:#24394f; }
-.welding-header .header-right { display:flex; align-items:center; gap:8px; font-size:.9rem; }
 .date-label { font-weight:600; }
 #currentDate { padding:6px 10px; border:1px solid #b4c4d4; border-radius:6px; font-size:.95rem; }
 .welding-main { max-width:1180px; margin:0 auto; padding:30px 24px 70px; }
@@ -118,10 +123,9 @@ body {
 /* Inputs error state */
 .input-pic.error, .input-date.error { border-color:#dc3545; box-shadow:0 0 0 2px rgba(220,53,69,.15); }
 
-/* Paint Page Styles */
-.paint-header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; box-shadow:var(--shadow-soft); }
-.paint-header .page-title { margin:0 0 4px; font-size:clamp(1.6rem,3.4vw,2.3rem); font-weight:700; color:#182c41; }
-.paint-header .page-subtitle { margin:0; font-size:clamp(1rem,2.2vw,1.2rem); font-weight:500; color:#24394f; }
+
+.paint-header .page-title { margin:0 0 4px; font-size:clamp(1.7rem,3.6vw,2.4rem); font-weight:700; color:#182c41; }
+.paint-header .page-subtitle { margin:0; font-size:clamp(.95rem,2.2vw,1.15rem); font-weight:600; color:#3a4754; }
 .paint-main { max-width:1180px; margin:0 auto; padding:26px 24px 70px; }
 .paint-toolbar { display:flex; gap:10px; }
 .paint-table { width:100%; border-collapse:collapse; min-width:700px; }
@@ -152,12 +156,8 @@ body {
   .paint-toolbar { width:100%; justify-content:center; }
 }
 
-/* Workers Page Styles */
-.workers-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:18px; padding:26px 20px 14px; background:#fff; box-shadow:var(--shadow-soft); border-bottom:2px solid #182c41; }
-.workers-title { flex:1 1 100%; margin:0; text-align:center; font-size:clamp(1.7rem,3.4vw,2.4rem); font-weight:700; color:#182c41; }
-.workers-right { display:flex; flex-direction:column; gap:10px; align-items:flex-end; }
-.workers-subline { display:flex; flex-direction:column; align-items:flex-end; font-size:.85rem; color:#5c6773; }
-.workers-subline .sub-text { font-size:clamp(.9rem,1.9vw,1.05rem); font-weight:600; color:#3a4754; }
+
+.workers-title { margin:0 0 4px; font-size:clamp(1.7rem,3.6vw,2.4rem); font-weight:700; color:#182c41; }
 .workers-actions { display:flex; gap:10px; }
 .workers-main { max-width:1250px; margin:0 auto; padding:30px 24px 70px; }
 .workers-table { width:100%; border-collapse:collapse; min-width:760px; }
@@ -172,5 +172,5 @@ body {
 .worker-group legend { padding:0 6px; font-weight:600; font-size:.85rem; }
 .modal-body .worker-group .form-row label { font-size:.78rem; }
 .workers-modal { max-height:90vh; overflow-y:auto; }
-@media (max-width: 720px) { .workers-right { width:100%; align-items:center; } .workers-subline { align-items:center; } .workers-actions { justify-content:center; flex-wrap:wrap; } }
+@media (max-width: 720px) { .app-header .header-right { width:100%; justify-content:center; flex-wrap:wrap; } .app-header .header-left { width:100%; text-align:center; align-items:center; } .workers-actions { justify-content:center; flex-wrap:wrap; } }
 @media (max-width: 560px) { .workers-table { min-width:640px; } .table-wrapper { overflow-x:auto; } }

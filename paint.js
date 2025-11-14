@@ -108,7 +108,7 @@
     wrapper.style.fontFamily = 'Segoe UI, Roboto, Arial, sans-serif';
 
     const title = document.createElement('h2');
-    title.textContent = 'MV Nazera';
+    title.textContent = 'এম ভি নাজেরা (MV Nazera)';
     title.style.margin = '0 0 4px 0';
     const subtitle = document.createElement('div');
     subtitle.textContent = 'রঙের হিসাব';
