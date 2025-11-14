@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ওয়ালিং রডের হিসাব</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="welding-page">
+  <header class="welding-header">
+    <div class="header-left">
+      <h1 class="page-title">এম ভি নাজেরা (MV Nazera)</h1>
+      <p class="page-subtitle">Vortic Marine Welding Rod, 3.2</p>
+    </div>
+    <div class="header-right">
+      <label class="date-label" for="currentDate">তারিখ:</label>
+      <input id="currentDate" type="date" />
+    </div>
+  </header>
+
+  <main class="welding-main">
+    <section class="table-section">
+      <h2 class="visually-hidden">Welding Rod Entry</h2>
+      <div class="table-wrapper">
+        <table class="welding-table" aria-describedby="totalCount">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>তারিখ (Date)</th>
+              <th>Welding Rod PIC</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="entryBody">
+            <!-- First default editable row -->
+            <tr class="edit-row">
+              <td class="row-index">1</td>
+              <td><input type="date" class="input-date" /></td>
+              <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" /></td>
+              <td>
+                <button type="button" class="btn save-btn" data-action="save" aria-label="Save row">Save</button>
+                <button type="button" class="btn danger-btn delete-btn" data-action="delete" aria-label="Delete row">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="add-row-wrapper">
+        <button type="button" id="addRowBtn" class="btn add-btn" aria-label="Add new row">+ Add Row</button>
+      </div>
+    </section>
+
+    <section class="total-section">
+      <p id="totalCount" class="total-text">Total Welding Rod PIC Added: <span id="totalValue">0</span></p>
+      <div class="print-wrapper">
+        <button type="button" id="printBtn" class="btn print-btn">Download PDF / Print</button>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="waling-rod.js"></script>
+</body>
+</html>
