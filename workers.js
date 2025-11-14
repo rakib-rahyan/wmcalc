@@ -27,13 +27,16 @@
     const yyyy = d.getFullYear();
     return `${yyyy}-${mm}-${dd}`;
   }
-  function toDDMMYYYY(ymd) {
+  function toDisplayDate(ymd) {
     if (!ymd) return '';
     const [y,m,d] = ymd.split('-');
-    return `${d}-${m}-${y}`;
+    const dateObj = new Date(Number(y), Number(m)-1, Number(d));
+    const day = String(dateObj.getDate()).padStart(2,'0');
+    const monthEn = dateObj.toLocaleString('en-US', { month: 'short' });
+    return `${day}-${monthEn}-${dateObj.getFullYear()}`;
   }
   function displayToday() {
-    todaySpan.textContent = `আজকের তারিখ: ${toDDMMYYYY(todayYYYYMMDD())}`;
+    todaySpan.textContent = `আজকের তারিখ: ${toDisplayDate(todayYYYYMMDD())}`;
   }
 
   displayToday();
@@ -59,7 +62,7 @@
     clearErrors();
     if (!dateInput.value) { dateInput.classList.add('error'); return; }
     const dateYMD = dateInput.value;
-    const displayDate = toDDMMYYYY(dateYMD);
+    const displayDate = toDisplayDate(dateYMD);
 
     const wStart = welderStart.value.trim();
     const wEnd = welderEnd.value.trim();
@@ -127,7 +130,7 @@
       const groupRows = groupsMap.get(d);
       // Ensure first row shows date, second blank
       if (groupRows.length === 2) {
-        const displayDate = toDDMMYYYY(d);
+        const displayDate = toDisplayDate(d);
         groupRows[0].querySelector('.date-cell').innerHTML = displayDate;
         groupRows[1].querySelector('.date-cell').innerHTML = '';
       }
@@ -154,7 +157,7 @@
 
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['Date','Worker Type','Start Time','End Time','Number of Workers'].forEach(t => {
+    ['তারিখ','শ্রমিকের ধরন','শুরুর সময়','শেষ সময়','শ্রমিক সংখ্যা'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t;
       th.style.border = '1px solid #ccc';

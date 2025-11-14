@@ -2,6 +2,15 @@
 // Handles: auto date, adding rows, saving entries, total sum, printing
 
 (function() {
+  // Utility: format ISO date (YYYY-MM-DD) into English display with month abbreviation
+  function formatDisplayDate(iso) {
+    if (!iso) return '';
+    const [y,m,d] = iso.split('-');
+    const dateObj = new Date(Number(y), Number(m)-1, Number(d));
+    const day = String(dateObj.getDate()).padStart(2,'0');
+    const monthEn = dateObj.toLocaleString('en-US', { month: 'short' });
+    return `${day}-${monthEn}-${dateObj.getFullYear()}`; // DD-MMM-YYYY
+  }
   const today = new Date();
   const dateInput = document.getElementById('currentDate');
   if (dateInput) {
@@ -34,8 +43,8 @@
       <td><input type="date" class="input-date" /></td>
       <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" /></td>
       <td>
-        <button type="button" class="btn save-btn" data-action="save">Save</button>
-        <button type="button" class="btn danger-btn delete-btn" data-action="delete">Delete</button>
+        <button type="button" class="btn save-btn" data-action="save">সংরক্ষণ</button>
+        <button type="button" class="btn danger-btn delete-btn" data-action="delete">মুছুন</button>
       </td>
     `;
     return tr;
@@ -72,10 +81,10 @@
     const rowNumber = tr.querySelector('.row-index').textContent;
     tr.innerHTML = `
       <td class="row-index">${rowNumber}</td>
-      <td>${dateVal}</td>
+      <td>${formatDisplayDate(dateVal)}</td>
       <td>${picVal}</td>
       <td>
-        <button type="button" class="btn edit-btn" data-action="edit">Edit</button>
+        <button type="button" class="btn edit-btn" data-action="edit">সম্পাদনা</button>
       </td>
     `;
 
@@ -135,8 +144,8 @@
       <td><input type="date" class="input-date" value="${dateVal}" /></td>
       <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" value="${picVal}" /></td>
       <td>
-        <button type="button" class="btn save-btn" data-action="save">Save</button>
-        <button type="button" class="btn danger-btn delete-btn" data-action="delete">Delete</button>
+        <button type="button" class="btn save-btn" data-action="save">সংরক্ষণ</button>
+        <button type="button" class="btn danger-btn delete-btn" data-action="delete">মুছুন</button>
       </td>
     `;
     const picField = tr.querySelector('.input-pic');
@@ -165,7 +174,7 @@
     table.style.fontSize = '12px';
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['#','Date','Welding Rod PIC'].forEach(t => {
+    ['#','তারিখ','ওয়েল্ডিং রড PIC'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t;
       th.style.border = '1px solid #ccc';
@@ -179,7 +188,7 @@
     rows.forEach((r, i) => {
       const tr = document.createElement('tr');
       const idx = document.createElement('td'); idx.textContent = String(i+1);
-      const dt = document.createElement('td'); dt.textContent = r.dataset.date || '';
+      const dt = document.createElement('td'); dt.textContent = formatDisplayDate(r.dataset.date || '');
       const pic = document.createElement('td'); pic.textContent = r.dataset.pic || '0';
       [idx, dt, pic].forEach(td => { td.style.border = '1px solid #ccc'; td.style.padding = '6px 8px'; });
       tr.append(idx, dt, pic);
@@ -188,7 +197,7 @@
     table.append(thead, tbody);
 
     const total = document.createElement('div');
-    total.textContent = 'Total Welding Rod PIC Added: ' + (totalValueEl.textContent || '0');
+    total.textContent = 'মোট ওয়েল্ডিং রড PIC যোগ হয়েছে: ' + (totalValueEl.textContent || '0');
     total.style.marginTop = '10px';
     total.style.fontWeight = '600';
 

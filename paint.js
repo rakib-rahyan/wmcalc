@@ -25,10 +25,13 @@
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  function toDDMMYYYY(yyyyMmDd) {
-    if (!yyyyMmDd) return '';
-    const [y, m, d] = yyyyMmDd.split('-');
-    return `${d}-${m}-${y}`;
+  function toDisplayDate(iso) {
+    if (!iso) return '';
+    const [y,m,d] = iso.split('-');
+    const dateObj = new Date(Number(y), Number(m)-1, Number(d));
+    const day = String(dateObj.getDate()).padStart(2,'0');
+    const monthEn = dateObj.toLocaleString('en-US', { month: 'short' });
+    return `${day}-${monthEn}-${dateObj.getFullYear()}`;
   }
 
   function openModal() {
@@ -71,7 +74,7 @@
   }
 
   function addRow() {
-    const date = toDDMMYYYY(dateInput.value);
+    const date = toDisplayDate(dateInput.value);
     const type = typeSelect.value;
     const liters = Number(litersInput.value);
     const gallon = Number(gallonInput.value);
@@ -118,7 +121,7 @@
 
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['Date','Type','Liters','Gallon','Gallon × Liters'].forEach(t => {
+    ['তারিখ','ধরন','লিটার','গ্যালন','গ্যালন × লিটার'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t;
       th.style.border = '1px solid #ccc';
@@ -147,7 +150,7 @@
     const footTr = document.createElement('tr');
     const footLabel = document.createElement('td');
     footLabel.colSpan = 4;
-    footLabel.textContent = 'SUM';
+    footLabel.textContent = 'মোট';
     footLabel.style.textAlign = 'right';
     footLabel.style.border = '1px solid #ccc';
     footLabel.style.padding = '6px 8px';

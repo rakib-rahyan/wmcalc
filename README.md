@@ -1,6 +1,12 @@
-# Project Title
+# হিসাব ড্যাশবোর্ড (Accounting Dashboard)
 
-A concise description of what this project does and who it is for.
+এই প্রকল্পটি (MV Nazera) জাহাজের কাজ সম্পর্কিত তিনটি প্রধান হিসাব এক জায়গায় সহজে ব্যবস্থাপনার জন্য তৈরি:
+
+1. ওয়েল্ডিং রডের হিসাব
+2. রঙ (Paint) ব্যবহারের হিসাব
+3. শ্রমিক (Workers) কাজের সময় ও সংখ্যা
+
+সমস্ত ইউআই বাংলা ভাষায়, তবে তারিখ ইংরেজি ফরম্যাটে (DD-MMM-YYYY) প্রদর্শিত হয় যাতে আন্তর্জাতিকভাবে পড়তে সুবিধা হয়। ডাউনলোডকৃত PDF রিপোর্টেও একই নিয়ম অনুসৃত হয়।
 
 ## Table of Contents
 - [About](#about)
@@ -17,79 +23,77 @@ A concise description of what this project does and who it is for.
 - [Acknowledgments](#acknowledgments)
 
 ## About
-Provide more context: the problem this solves, goals, target audience.
+এই ড্যাশবোর্ডটি মাঠ পর্যায়ে দ্রুত তথ্য এন্ট্রি, পর্যালোচনা এবং রিপোর্ট তৈরির জন্য একটি হালকা, অফলাইন-সহায়ক ওয়েব ইন্টারফেস। লক্ষ্য:
+- ডেটা এন্ট্রি দ্রুত করা
+- প্রিন্ট/PDF রিপোর্ট এক ক্লিকে পাওয়া
+- বাংলা ভাষার মাধ্যমে ব্যবহারকারীর স্বাচ্ছন্দ্য নিশ্চিত
 
 ## Features
-- Bullet one
-- Bullet two
-- Bullet three
+- ওয়েল্ডিং রড: সারি যোগ, সম্পাদনা, মোট PIC অটো গণনা, PDF রিপোর্ট
+- রঙের হিসাব: আইটেম ভিত্তিক গ্যালন × লিটার গণনা, মোট যোগফল, PDF রিপোর্ট
+- শ্রমিক: প্রতিদিনের জন্য ওয়েল্ডার ও ফিটার সময় ও সংখ্যা ট্র্যাক, তারিখভিত্তিক সাজানো রিপোর্ট
+- Responsive UI (মোবাইল ও ডেস্কটপ)
+- সম্পূর্ণ বাংলা টেক্সট (তারিখ ইংরেজি)
 
 ## Getting Started
 ### Prerequisites
-List required runtimes / tools (e.g. Node.js, Python, Docker).
+কোনো বিল্ড টুল প্রয়োজন নেই। একটি আধুনিক ব্রাউজার (Chrome / Edge / Firefox) যথেষ্ট।
 
 ### Installation
 ```powershell
-# Clone repository
+# রিপোজিটরি ক্লোন করুন
 git clone <REPO_URL>
 cd <project-folder>
 
-# Install dependencies (example commands)
-# npm install
-# pip install -r requirements.txt
+# কোনও অতিরিক্ত ডিপেন্ডেন্সি নেই (সাধারণ স্ট্যাটিক ফাইল)
 ```
 
 ## Usage
-Explain basic usage with short examples.
-```powershell
-# Example run command
-# npm start
-# python main.py
-```
+- `index.html` খুলুন (ফাইল ডাবল-ক্লিক বা লোকাল সার্ভার দিয়ে পরিবেশন)।
+- সংশ্লিষ্ট কার্ডে ক্লিক করে কাঙ্ক্ষিত হিসাব পেজে যান।
+- তথ্য এন্ট্রি করে PDF ডাউনলোড বাটনে ক্লিক করলে রিপোর্ট পাওয়া যাবে।
 
 ## Development
-Explain folder structure, coding standards, branching strategy, or link to docs.
+Folder Structure:
+```
+index.html          # ড্যাশবোর্ড
+paint.html / .js    # রঙের হিসাব
+waling-rod.html/.js # ওয়েল্ডিং রড
+workers.html /.js   # শ্রমিক কাজের রিপোর্ট
+style.css           # শেয়ারড স্টাইলস
+script.js           # ড্যাশবোর্ড ইন্টারঅ্যাকশন
+```
 
 ## Testing
-```powershell
-# Example test command
-# npm test
-# pytest
-```
-Add notes on test philosophy and coverage expectations.
+এটি একটি স্ট্যাটিক UI প্রকল্প; আনুষ্ঠানিক ইউনিট টেস্ট নেই। প্রয়োজনে Playwright / Cypress যুক্ত করে ইন্টারঅ্যাকশন টেস্ট যোগ করা যেতে পারে।
 
 ## Build
-Describe how to produce production builds or distributions.
-```powershell
-# Example
-# npm run build
-# python -m build
-```
+বিল্ড ধাপ নেই। প্রয়োজন হলে `dist/` ফোল্ডারে ফাইল কপি করে হোস্ট করা যাবে।
 
 ## Configuration
-Document environment variables or config files.
-| Variable | Description | Default |
-|----------|-------------|---------|
-| EXAMPLE_VAR | Example purpose | (none) |
+বর্তমানে কোনও আলাদা কনফিগ ভেরিয়েবল নেই। ভবিষ্যৎ উন্নয়নে লোকাল স্টোরেজ / ব্যাকএন্ড API এন্ডপয়েন্ট যোগ করা যেতে পারে।
 
 ## Roadmap
-- [ ] Milestone 1
-- [ ] Milestone 2
-- [ ] Milestone 3
+- [ ] লোকাল স্টোরেজ পার্সিস্টেন্স
+- [ ] মাল্টি-ইউজার ব্যাকএন্ড API
+- [ ] এক্সেল এক্সপোর্ট
+- [ ] অ্যাক্সেস কন্ট্রোল / অথেনটিকেশন
 
 ## Contributing
-1. Fork repo
-2. Create feature branch
-3. Commit changes
-4. Open Pull Request
+1. Fork করুন
+2. নতুন ফিচার ব্রাঞ্চ তৈরি করুন
+3. পরিবর্তন কমিট করুন (বাংলা টেক্সট বজায় রাখুন)
+4. Pull Request ওপেন করুন
 
-Follow code style and add tests for new logic.
+নতুন লজিক যুক্ত করলে রিগ্রেশন এড়াতে ব্রাউজার টেস্ট করার পর PR দিন।
 
 ## License
-Specify license (e.g. MIT). Include a `LICENSE` file if applicable.
+লাইসেন্স এখনো নির্ধারিত হয়নি (MIT ব্যবহার উপযোগী)।
 
 ## Acknowledgments
-Credit libraries, inspiration, references.
+- `html2pdf.js` লাইব্রেরি PDF জেনারেশনের জন্য
+- Noto Sans Bengali (Google Fonts)
+- ব্যবহারকারীদের ফিডব্যাক
 
 ---
-> Replace placeholder sections as you define project specifics.
+> এই README বাংলায় আপডেট করা হয়েছে যাতে ফিল্ড ব্যবহারকারীরা সহজে বুঝতে পারেন।

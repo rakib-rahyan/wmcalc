@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>রঙের হিসাব</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="paint-page">
@@ -13,8 +14,8 @@
       <p class="page-subtitle">রঙের হিসাব</p>
     </div>
     <div class="header-right paint-toolbar">
-      <button type="button" id="addItemBtn" class="btn add-btn">Add Item</button>
-      <button type="button" id="downloadPdfBtn" class="btn print-btn">Download PDF</button>
+      <button type="button" id="addItemBtn" class="btn add-btn">আইটেম যোগ করুন</button>
+      <button type="button" id="downloadPdfBtn" class="btn print-btn">পিডিএফ ডাউনলোড</button>
     </div>
   </header>
 
@@ -24,11 +25,11 @@
         <table class="paint-table" id="paintTable">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Liters</th>
-              <th>Gallon</th>
-              <th>Gallon × Liters</th>
+              <th>তারিখ</th>
+              <th>ধরন</th>
+              <th>লিটার</th>
+              <th>গ্যালন</th>
+              <th>গ্যালন × লিটার</th>
             </tr>
           </thead>
           <tbody id="paintTbody">
@@ -36,7 +37,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4" class="sum-label">SUM</td>
+              <td colspan="4" class="sum-label">মোট</td>
               <td id="sumCell" class="sum-cell">0</td>
             </tr>
           </tfoot>
@@ -49,37 +50,37 @@
   <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-header">
-        <h2 id="modalTitle">Add Item</h2>
+        <h2 id="modalTitle">আইটেম যোগ করুন</h2>
         <button type="button" class="modal-close" id="modalClose" aria-label="Close">×</button>
       </div>
       <div class="modal-body">
         <div class="form-row">
-          <label for="dateInput">Date</label>
+          <label for="dateInput">তারিখ</label>
           <input id="dateInput" type="date" />
         </div>
         <div class="form-row">
-          <label for="typeSelect">Type</label>
+          <label for="typeSelect">ধরন</label>
           <select id="typeSelect">
-            <option value="Paint">Paint</option>
-            <option value="Hardener">Hardener</option>
-            <option value="Thinner">Thinner</option>
+            <option value="Paint">রঙ</option>
+            <option value="Hardener">হার্ডনার</option>
+            <option value="Thinner">থিনার</option>
           </select>
         </div>
         <div class="form-row">
-          <label for="litersInput">Liters</label>
+          <label for="litersInput">লিটার</label>
           <input id="litersInput" type="number" min="0" step="0.01" placeholder="0" />
         </div>
         <div class="form-row">
-          <label for="gallonInput">Gallon</label>
+          <label for="gallonInput">গ্যালন</label>
           <input id="gallonInput" type="number" min="0" step="0.01" placeholder="0" />
         </div>
         <div class="form-row readonly">
-          <label>Gallon × Liters</label>
+          <label>গ্যালন × লিটার</label>
           <div id="productPreview" class="calc-preview">0</div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="modalSave" class="btn save-btn">Save</button>
+        <button type="button" id="modalSave" class="btn save-btn">সংরক্ষণ</button>
       </div>
     </div>
   </div>

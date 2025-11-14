@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ওয়ালিং রডের হিসাব</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="welding-page">
@@ -26,9 +27,9 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>তারিখ (Date)</th>
-              <th>Welding Rod PIC</th>
-              <th>Action</th>
+              <th>তারিখ</th>
+              <th>ওয়েল্ডিং রড PIC</th>
+              <th>ক্রিয়া</th>
             </tr>
           </thead>
           <tbody id="entryBody">
@@ -38,22 +39,22 @@
               <td><input type="date" class="input-date" /></td>
               <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" /></td>
               <td>
-                <button type="button" class="btn save-btn" data-action="save" aria-label="Save row">Save</button>
-                <button type="button" class="btn danger-btn delete-btn" data-action="delete" aria-label="Delete row">Delete</button>
+                <button type="button" class="btn save-btn" data-action="save" aria-label="সংরক্ষণ" >সংরক্ষণ</button>
+                <button type="button" class="btn danger-btn delete-btn" data-action="delete" aria-label="মুছুন">মুছুন</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="add-row-wrapper">
-        <button type="button" id="addRowBtn" class="btn add-btn" aria-label="Add new row">+ Add Row</button>
+        <button type="button" id="addRowBtn" class="btn add-btn" aria-label="নতুন সারি যোগ করুন">+ নতুন সারি</button>
       </div>
     </section>
 
     <section class="total-section">
-      <p id="totalCount" class="total-text">Total Welding Rod PIC Added: <span id="totalValue">0</span></p>
+      <p id="totalCount" class="total-text">মোট ওয়েল্ডিং রড PIC যোগ হয়েছে: <span id="totalValue">0</span></p>
       <div class="print-wrapper">
-        <button type="button" id="printBtn" class="btn print-btn">Download PDF / Print</button>
+        <button type="button" id="printBtn" class="btn print-btn">পিডিএফ ডাউনলোড / প্রিন্ট</button>
       </div>
     </section>
   </main>

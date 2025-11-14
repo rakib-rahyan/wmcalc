@@ -4,6 +4,13 @@
   --bg-orange: #ffe8d1;
   --bg-green: #dcf9dc;
   --text-dark: #0d1b2a;
+  --accent: #0d6efd;
+  --accent-gradient: linear-gradient(135deg,#0d6efd 0%, #4f9bff 100%);
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+  --shadow-soft: 0 4px 16px -4px rgba(0,0,0,.12), 0 2px 6px -2px rgba(0,0,0,.08);
+  --shadow-hover: 0 10px 26px -6px rgba(0,0,0,.16), 0 2px 7px -1px rgba(0,0,0,.12);
 }
 
 * { box-sizing: border-box; }
@@ -47,7 +54,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 44px 32px;
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   position: relative;
   text-align: center;
@@ -60,7 +67,7 @@ body {
 }
 .calc-card .icon { font-size: 2.6rem; margin-bottom: 16px; }
 .calc-card:focus-visible { outline: 3px solid #0d6efd; outline-offset: 2px; }
-.calc-card:hover, .calc-card:focus { transform: scale(1.05); box-shadow: 0 10px 26px -6px rgba(0,0,0,.16), 0 2px 7px -1px rgba(0,0,0,.12); }
+.calc-card:hover, .calc-card:focus { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
 .card-blue { background: var(--bg-blue); }
 .card-orange { background: var(--bg-orange); }
 .card-green { background: var(--bg-green); }
@@ -70,29 +77,29 @@ body {
 }
 
 /* Welding Rod Page Styles */
-.welding-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:16px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; }
+.welding-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:16px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; box-shadow:var(--shadow-soft); }
 .welding-header .page-title { margin:0 0 4px; font-size:clamp(1.7rem,3.6vw,2.4rem); font-weight:700; color:#182c41; }
 .welding-header .page-subtitle { margin:0; font-size:clamp(.95rem,2.2vw,1.15rem); font-weight:500; color:#24394f; }
 .welding-header .header-right { display:flex; align-items:center; gap:8px; font-size:.9rem; }
 .date-label { font-weight:600; }
 #currentDate { padding:6px 10px; border:1px solid #b4c4d4; border-radius:6px; font-size:.95rem; }
 .welding-main { max-width:1180px; margin:0 auto; padding:30px 24px 70px; }
-.table-wrapper { overflow-x:auto; background:#f9fbfc; border:1px solid #d7e2eb; border-radius:14px; padding:12px; }
+.table-wrapper { overflow-x:auto; background:#f9fbfc; border:1px solid #d7e2eb; border-radius:var(--radius-md); padding:12px; backdrop-filter:blur(2px); }
 .welding-table { width:100%; border-collapse:collapse; min-width:600px; }
 .welding-table thead tr { background:#dde7ef; }
 .welding-table th, .welding-table td { padding:12px 14px; text-align:left; font-size:.92rem; }
 .welding-table th { font-weight:600; color:#162838; border-bottom:2px solid #c3d2dd; }
 .welding-table tbody tr { background:#ffffff; transition:background-color .2s; }
 .welding-table tbody tr:nth-child(even):not(.edit-row) { background:#f2f6f9; }
-.welding-table tbody tr:hover { background:#eef5fa; }
+.welding-table tbody tr:hover { background:#eef5fa; cursor:pointer; }
 .welding-table input[type=date], .welding-table input[type=number] { width:100%; padding:6px 8px; border:1px solid #b5c6d6; border-radius:6px; font-size:.85rem; background:#fff; }
 .welding-table input:focus { outline:2px solid #0d6efd; outline-offset:1px; }
-.btn { font-family:inherit; border:none; cursor:pointer; font-weight:600; letter-spacing:.3px; display:inline-flex; align-items:center; justify-content:center; gap:6px; }
-.save-btn, .add-btn, .print-btn { background:#0d6efd; color:#fff; padding:8px 18px; border-radius:8px; font-size:.8rem; box-shadow:0 2px 4px rgba(0,0,0,.12); transition:transform .18s, box-shadow .18s, background-color .25s; }
+.btn { font-family:inherit; border:none; cursor:pointer; font-weight:600; letter-spacing:.3px; display:inline-flex; align-items:center; justify-content:center; gap:6px; position:relative; overflow:hidden; }
+.save-btn, .add-btn, .print-btn { background:var(--accent-gradient); color:#fff; padding:10px 22px; border-radius:var(--radius-sm); font-size:.8rem; box-shadow:0 2px 4px rgba(0,0,0,.12); transition:transform .18s, box-shadow .18s, background-color .25s; }
 .add-btn { background:#198754; }
 .print-btn { background:#6f42c1; }
-.edit-btn { background:#fd7e14; color:#fff; padding:8px 14px; border-radius:8px; font-size:.8rem; }
-.danger-btn { background:#dc3545; color:#fff; padding:8px 12px; border-radius:8px; font-size:.8rem; }
+.edit-btn { background:#fd7e14; color:#fff; padding:8px 16px; border-radius:var(--radius-sm); font-size:.8rem; }
+.danger-btn { background:#dc3545; color:#fff; padding:8px 16px; border-radius:var(--radius-sm); font-size:.8rem; }
 .save-btn:hover, .add-btn:hover, .print-btn:hover { transform:translateY(-2px); box-shadow:0 6px 14px -4px rgba(0,0,0,.25); }
 .edit-btn:hover { transform:translateY(-2px); box-shadow:0 6px 14px -4px rgba(0,0,0,.25); }
 .save-btn:active, .add-btn:active, .print-btn:active { transform:translateY(0); box-shadow:0 2px 6px -2px rgba(0,0,0,.3); }
@@ -101,7 +108,7 @@ body {
 .danger-btn:active { transform:translateY(0); box-shadow:0 2px 6px -2px rgba(0,0,0,.3); }
 .add-row-wrapper { margin-top:14px; text-align:left; }
 .total-section { margin-top:34px; display:flex; flex-direction:column; gap:18px; }
-.total-text { font-size:1.05rem; font-weight:600; background:#f3f8fc; padding:14px 18px; border-left:5px solid #0d6efd; border-radius:10px; }
+.total-text { font-size:1.05rem; font-weight:600; background:#f3f8fc; padding:14px 18px; border-left:5px solid var(--accent); border-radius:10px; }
 .print-wrapper { text-align:right; }
 @media (max-width: 780px) { .welding-header { flex-direction:column; align-items:flex-start; } .print-wrapper { text-align:left; } }
 @media (max-width: 560px) { .welding-header { text-align:center; } .welding-header .header-right { width:100%; justify-content:center; } .welding-header .header-left { width:100%; } .add-row-wrapper { text-align:center; } .print-btn { width:100%; padding:14px 24px; font-size:.9rem; } }
@@ -112,7 +119,7 @@ body {
 .input-pic.error, .input-date.error { border-color:#dc3545; box-shadow:0 0 0 2px rgba(220,53,69,.15); }
 
 /* Paint Page Styles */
-.paint-header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; }
+.paint-header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:26px 20px 14px; border-bottom:2px solid #182c41; background:#fff; box-shadow:var(--shadow-soft); }
 .paint-header .page-title { margin:0 0 4px; font-size:clamp(1.6rem,3.4vw,2.3rem); font-weight:700; color:#182c41; }
 .paint-header .page-subtitle { margin:0; font-size:clamp(1rem,2.2vw,1.2rem); font-weight:500; color:#24394f; }
 .paint-main { max-width:1180px; margin:0 auto; padding:26px 24px 70px; }
@@ -127,7 +134,7 @@ body {
 /* Modal */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; padding:16px; z-index:1000; }
 .modal-overlay.show { display:flex; }
-.modal { width:min(520px, 100%); background:#fff; border-radius:14px; box-shadow:0 12px 36px rgba(0,0,0,.25); overflow:hidden; }
+.modal { width:min(520px, 100%); background:#fff; border-radius:var(--radius-md); box-shadow:0 12px 36px rgba(0,0,0,.25); overflow:hidden; }
 .modal-header { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #e6ecf2; }
 .modal-header h2 { margin:0; font-size:1.2rem; }
 .modal-close { background:transparent; border:none; font-size:1.5rem; line-height:1; cursor:pointer; padding:4px 8px; }
@@ -146,7 +153,7 @@ body {
 }
 
 /* Workers Page Styles */
-.workers-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:18px; padding:26px 20px 14px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.06); border-bottom:2px solid #182c41; }
+.workers-header { display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:18px; padding:26px 20px 14px; background:#fff; box-shadow:var(--shadow-soft); border-bottom:2px solid #182c41; }
 .workers-title { flex:1 1 100%; margin:0; text-align:center; font-size:clamp(1.7rem,3.4vw,2.4rem); font-weight:700; color:#182c41; }
 .workers-right { display:flex; flex-direction:column; gap:10px; align-items:flex-end; }
 .workers-subline { display:flex; flex-direction:column; align-items:flex-end; font-size:.85rem; color:#5c6773; }
