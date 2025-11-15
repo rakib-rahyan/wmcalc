@@ -76,20 +76,20 @@
   function addRow() {
     const date = toDisplayDate(dateInput.value);
     const type = typeSelect.value;
-    const liters = Number(litersInput.value);
     const gallon = Number(gallonInput.value);
-    const product = liters * gallon;
+    const liters = Number(litersInput.value);
+    const product = gallon * liters;
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${date}</td>
       <td>${type}</td>
-      <td>${liters.toFixed(2)}</td>
       <td>${gallon.toFixed(2)}</td>
+      <td>${liters.toFixed(2)}</td>
       <td class="cell-product">${product.toFixed(2)}</td>
+      <td><button type="button" class="btn danger-btn row-delete" aria-label="সারি মুছুন">মুছুন</button></td>
     `;
     tbody.appendChild(tr);
-
     updateSum();
   }
 
@@ -121,7 +121,7 @@
 
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['তারিখ','ধরন','লিটার','গ্যালন','গ্যালন × লিটার'].forEach(t => {
+    ['তারিখ','ক্ষমতা','গ্যালন','লিটার','গ্যালন × লিটার'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t;
       th.style.border = '1px solid #ccc';
@@ -130,13 +130,16 @@
       th.style.textAlign = 'left';
       headTr.appendChild(th);
     });
+    // action column not printed
     thead.appendChild(headTr);
 
     const tbodyPdf = document.createElement('tbody');
     tbody.querySelectorAll('tr').forEach(row => {
       const tr = document.createElement('tr');
       const cells = row.querySelectorAll('td');
-      cells.forEach((cell, idx) => {
+      // Map current row cells to PDF order skipping action button cell
+      const pdfCells = [cells[0], cells[1], cells[2], cells[3], cells[4]];
+      pdfCells.forEach(cell => {
         const td = document.createElement('td');
         td.textContent = cell.textContent;
         td.style.border = '1px solid #ccc';
@@ -200,6 +203,19 @@
     if (!validateModal()) return;
     addRow();
     closeModal();
+  });
+
+  // Row delete event delegation
+  tbody.addEventListener('click', (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    if (t.matches('.row-delete')) {
+      const tr = t.closest('tr');
+      if (tr) {
+        tr.remove();
+        updateSum();
+      }
+    }
   });
 
   downloadPdfBtn.addEventListener('click', generatePdf);
