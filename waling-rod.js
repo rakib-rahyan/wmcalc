@@ -1,8 +1,8 @@
 // Welding Rod Calculation Page Logic
-// Handles: auto date, adding rows, saving entries, total sum, printing
+// Handles: header date (readonly), modal add, remove, totals, PDF
 
 (function() {
-  // Utility: format ISO date (YYYY-MM-DD) into English display with month abbreviation
+  // Utils
   function formatDisplayDate(iso) {
     if (!iso) return '';
     const [y,m,d] = iso.split('-');
@@ -11,149 +11,95 @@
     const monthEn = dateObj.toLocaleString('en-US', { month: 'short' });
     return `${day}-${monthEn}-${dateObj.getFullYear()}`; // DD-MMM-YYYY
   }
-  const today = new Date();
-  const dateInput = document.getElementById('currentDate');
-  if (dateInput) {
-    dateInput.value = today.toISOString().split('T')[0];
+  function todayYYYYMMDD() {
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const yyyy = d.getFullYear();
+    return `${yyyy}-${mm}-${dd}`;
   }
 
-  const entryBody = document.getElementById('entryBody');
-  const addRowBtn = document.getElementById('addRowBtn');
-  const totalValueEl = document.getElementById('totalValue');
-  const printBtn = document.getElementById('printBtn');
+  // Header date display
+  const weldingToday = document.getElementById('weldingToday');
+  if (weldingToday) weldingToday.textContent = formatDisplayDate(todayYYYYMMDD());
 
-  let totalPic = 0;
-  let nextIndex = 2; // first row is 1
+  const entryBody = document.getElementById('entryBody');
+  const totalValueEl = document.getElementById('totalValue');
+  const addBtn = document.getElementById('weldAddBtn');
+  const pdfBtn = document.getElementById('weldPdfBtn');
+
+  // Modal elements
+  const modalOverlay = document.getElementById('weldModalOverlay');
+  const modalClose = document.getElementById('weldModalClose');
+  const modalCancel = document.getElementById('weldModalCancel');
+  const modalSave = document.getElementById('weldModalSave');
+  const modalDate = document.getElementById('weldDate');
+  const modalPacket = document.getElementById('weldPacket');
+  const modalPieces = document.getElementById('weldPieces');
+
+  let totalPieces = 0;
 
   function renumberRows() {
     const rows = entryBody.querySelectorAll('tr');
-    let i = 1;
-    rows.forEach(r => {
+    rows.forEach((r, i) => {
       const idx = r.querySelector('.row-index');
-      if (idx) idx.textContent = String(i++);
+      if (idx) idx.textContent = String(i + 1);
     });
-    nextIndex = i;
+  }
+  function updateTotal() {
+    const rows = Array.from(entryBody.querySelectorAll('tr'));
+    totalPieces = rows.reduce((sum, r) => sum + (Number(r.dataset.pieces || 0) || 0), 0);
+    totalValueEl.textContent = String(totalPieces);
   }
 
-  function createEditRow(index) {
+  function addRow(dateYMD, packet, pieces) {
     const tr = document.createElement('tr');
-    tr.className = 'edit-row';
+    tr.dataset.date = dateYMD;
+    tr.dataset.packet = packet || '';
+    tr.dataset.pieces = String(pieces);
     tr.innerHTML = `
-      <td class="row-index">${index}</td>
-      <td><input type="date" class="input-date" /></td>
-      <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" /></td>
-      <td>
-        <button type="button" class="btn save-btn" data-action="save">সংরক্ষণ</button>
-        <button type="button" class="btn danger-btn delete-btn" data-action="delete">মুছুন</button>
-      </td>
+      <td class="row-index">${entryBody.children.length + 1}</td>
+      <td>${formatDisplayDate(dateYMD)}</td>
+      <td>${packet ? packet.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])) : '-'}</td>
+      <td>${pieces}</td>
+      <td><button type="button" class="btn danger-btn row-remove">মুছুন</button></td>
     `;
-    return tr;
-  }
-
-  function validateInputs(dateEl, picEl) {
-    dateEl.classList.remove('error');
-    picEl.classList.remove('error');
-    const dateVal = dateEl.value || new Date().toISOString().split('T')[0];
-    const picVal = Number(picEl.value);
-    if (!picEl.value || isNaN(picVal) || picVal <= 0) {
-      picEl.classList.add('error');
-      picEl.focus();
-      return null;
-    }
-    return { dateVal, picVal: Math.trunc(picVal) };
-  }
-
-  function saveRow(tr) {
-    const dateEl = tr.querySelector('.input-date');
-    const picEl = tr.querySelector('.input-pic');
-    const res = validateInputs(dateEl, picEl);
-    if (!res) return;
-
-    const { dateVal, picVal } = res;
-    totalPic += picVal;
-    totalValueEl.textContent = totalPic.toString();
-
-    tr.dataset.saved = 'true';
-    tr.dataset.pic = String(picVal);
-    tr.dataset.date = dateVal;
-
-    tr.classList.remove('edit-row');
-    const rowNumber = tr.querySelector('.row-index').textContent;
-    tr.innerHTML = `
-      <td class="row-index">${rowNumber}</td>
-      <td>${formatDisplayDate(dateVal)}</td>
-      <td>${picVal}</td>
-      <td>
-        <button type="button" class="btn edit-btn" data-action="edit">সম্পাদনা</button>
-      </td>
-    `;
-
-    appendEditRow();
+    entryBody.appendChild(tr);
+    updateTotal();
   }
 
   function deleteRow(tr) {
-    if (tr.dataset.saved === 'true') {
-      const pic = Number(tr.dataset.pic || 0);
-      totalPic = Math.max(0, totalPic - pic);
-      totalValueEl.textContent = String(totalPic);
-    }
     tr.remove();
     renumberRows();
+    updateTotal();
   }
 
-  function handleRowClick(e) {
-    const target = e.target;
-    if (!(target instanceof Element)) return;
-    if (target.matches('button.save-btn')) {
-      const tr = target.closest('tr');
-      if (tr) saveRow(tr);
-    } else if (target.matches('button.delete-btn')) {
-      const tr = target.closest('tr');
-      if (tr) deleteRow(tr);
-    } else if (target.matches('button.edit-btn')) {
-      const tr = target.closest('tr');
-      if (tr) enterEditMode(tr);
-    }
+  function openModal(prefillDate) {
+    modalOverlay.classList.add('show');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+    modalDate.value = prefillDate || todayYYYYMMDD();
+    modalPacket.value = '';
+    modalPieces.value = '';
+    [modalDate, modalPacket, modalPieces].forEach(el => el.classList.remove('error'));
+    setTimeout(() => modalDate.focus(), 0);
   }
 
-  function appendEditRow() {
-    const newRow = createEditRow(nextIndex++);
-    entryBody.appendChild(newRow);
-    const dateField = newRow.querySelector('.input-date');
-    dateField.value = new Date().toISOString().split('T')[0];
-    newRow.querySelector('.input-pic').focus();
+  function closeModal() {
+    modalOverlay.classList.remove('show');
+    modalOverlay.setAttribute('aria-hidden', 'true');
   }
 
-  function enterEditMode(tr) {
-    // If this was a saved row, remove its amount from total temporarily
-    if (tr.dataset.saved === 'true') {
-      const prev = Number(tr.dataset.pic || 0);
-      totalPic = Math.max(0, totalPic - prev);
-      totalValueEl.textContent = String(totalPic);
-    }
-    const rowNo = tr.querySelector('.row-index')?.textContent || '';
-    const dateVal = tr.dataset.date || '';
-    const picVal = tr.dataset.pic || '';
-    tr.className = 'edit-row';
-    tr.removeAttribute('data-saved');
-    delete tr.dataset.saved;
-    delete tr.dataset.pic;
-    delete tr.dataset.date;
-    tr.innerHTML = `
-      <td class="row-index">${rowNo}</td>
-      <td><input type="date" class="input-date" value="${dateVal}" /></td>
-      <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" value="${picVal}" /></td>
-      <td>
-        <button type="button" class="btn save-btn" data-action="save">সংরক্ষণ</button>
-        <button type="button" class="btn danger-btn delete-btn" data-action="delete">মুছুন</button>
-      </td>
-    `;
-    const picField = tr.querySelector('.input-pic');
-    picField && picField.focus();
+  function validateModal() {
+    [modalDate, modalPieces].forEach(el => el.classList.remove('error'));
+    let ok = true;
+    if (!modalDate.value) { modalDate.classList.add('error'); ok = false; }
+    const pieces = Number(modalPieces.value);
+    if (!modalPieces.value || !isFinite(pieces) || pieces <= 0) { modalPieces.classList.add('error'); ok = false; }
+    return ok;
   }
 
   function generatePdf() {
-    const rows = Array.from(entryBody.querySelectorAll('tr')).filter(r => r.dataset.saved === 'true');
+    const rows = Array.from(entryBody.querySelectorAll('tr'));
     const wrapper = document.createElement('div');
     wrapper.style.padding = '16px';
     wrapper.style.fontFamily = 'Segoe UI, Roboto, Arial, sans-serif';
@@ -165,7 +111,7 @@
     subtitle.textContent = 'ওয়েল্ডিং রডের হিসাব';
     subtitle.style.marginBottom = '12px';
     const dateLine = document.createElement('div');
-    dateLine.textContent = 'তারিখ: ' + (document.getElementById('currentDate').value || '');
+    dateLine.textContent = 'তারিখ: ' + formatDisplayDate(todayYYYYMMDD());
     dateLine.style.marginBottom = '12px';
 
     const table = document.createElement('table');
@@ -174,7 +120,7 @@
     table.style.fontSize = '12px';
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['#','তারিখ','ওয়েল্ডিং রড PIC'].forEach(t => {
+    ['#','তারিখ','প্যাকেট','পিস'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t;
       th.style.border = '1px solid #ccc';
@@ -189,19 +135,33 @@
       const tr = document.createElement('tr');
       const idx = document.createElement('td'); idx.textContent = String(i+1);
       const dt = document.createElement('td'); dt.textContent = formatDisplayDate(r.dataset.date || '');
-      const pic = document.createElement('td'); pic.textContent = r.dataset.pic || '0';
-      [idx, dt, pic].forEach(td => { td.style.border = '1px solid #ccc'; td.style.padding = '6px 8px'; });
-      tr.append(idx, dt, pic);
+      const packet = document.createElement('td'); packet.textContent = r.dataset.packet || '-';
+      const pieces = document.createElement('td'); pieces.textContent = r.dataset.pieces || '0';
+      [idx, dt, packet, pieces].forEach(td => { td.style.border = '1px solid #ccc'; td.style.padding = '6px 8px'; });
+      tr.append(idx, dt, packet, pieces);
       tbody.appendChild(tr);
     });
     table.append(thead, tbody);
 
     const total = document.createElement('div');
-    total.textContent = 'মোট ওয়েল্ডিং রড PIC যোগ হয়েছে: ' + (totalValueEl.textContent || '0');
+    total.textContent = 'মোট পিস: ' + (totalValueEl.textContent || '0');
     total.style.marginTop = '10px';
     total.style.fontWeight = '600';
 
     wrapper.append(title, subtitle, dateLine, table, total);
+
+    // Signature area
+    const signWrap = document.createElement('div');
+    signWrap.style.marginTop = '28px';
+    const signLine = document.createElement('div');
+    signLine.style.width = '220px';
+    signLine.style.borderBottom = '1px solid #000';
+    signLine.style.height = '28px';
+    const signLabel = document.createElement('div');
+    signLabel.textContent = 'স্বাক্ষর';
+    signLabel.style.marginTop = '6px';
+    signWrap.append(signLine, signLabel);
+    wrapper.appendChild(signWrap);
 
     const opt = {
       margin:       [10, 10, 10, 10],
@@ -225,12 +185,26 @@
     }
   }
 
-  addRowBtn.addEventListener('click', appendEditRow);
-  entryBody.addEventListener('click', handleRowClick);
-  printBtn.addEventListener('click', generatePdf);
-
-  const firstRowDate = entryBody.querySelector('.edit-row .input-date');
-  if (firstRowDate && !firstRowDate.value) {
-    firstRowDate.value = today.toISOString().split('T')[0];
-  }
+  // Events
+  addBtn.addEventListener('click', () => openModal());
+  pdfBtn.addEventListener('click', generatePdf);
+  modalClose.addEventListener('click', closeModal);
+  modalCancel.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+  entryBody.addEventListener('click', (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    if (t.matches('.row-remove')) {
+      const tr = t.closest('tr');
+      if (tr) deleteRow(tr);
+    }
+  });
+  modalSave.addEventListener('click', () => {
+    if (!validateModal()) return;
+    const dateYMD = modalDate.value || todayYYYYMMDD();
+    const packet = modalPacket.value.trim();
+    const pieces = Math.trunc(Number(modalPieces.value));
+    addRow(dateYMD, packet, pieces);
+    closeModal();
+  });
 })();

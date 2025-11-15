@@ -14,8 +14,12 @@
       <p class="page-subtitle">ওয়েল্ডিং রডের হিসাব</p>
     </div>
     <div class="header-right">
-      <label class="date-label" for="currentDate">তারিখ:</label>
-      <input id="currentDate" type="date" />
+      <div class="header-meta">
+        <span>আজকের তারিখ:</span>
+        <span class="date-badge" id="weldingToday">--</span>
+      </div>
+      <button type="button" id="weldAddBtn" class="btn add-btn">যোগ করুন</button>
+      <button type="button" id="weldPdfBtn" class="btn print-btn">পিডিএফ ডাউনলোড</button>
     </div>
   </header>
 
@@ -28,36 +32,50 @@
             <tr>
               <th>#</th>
               <th>তারিখ</th>
-              <th>ওয়েল্ডিং রড PIC</th>
-              <th>ক্রিয়া</th>
+              <th>প্যাকেট</th>
+              <th>পিস</th>
+              <th>অ্যাকশন</th>
             </tr>
           </thead>
           <tbody id="entryBody">
-            <!-- First default editable row -->
-            <tr class="edit-row">
-              <td class="row-index">1</td>
-              <td><input type="date" class="input-date" /></td>
-              <td><input type="number" min="0" step="1" class="input-pic" placeholder="0" /></td>
-              <td>
-                <button type="button" class="btn save-btn" data-action="save" aria-label="সংরক্ষণ" >সংরক্ষণ</button>
-                <button type="button" class="btn danger-btn delete-btn" data-action="delete" aria-label="মুছুন">মুছুন</button>
-              </td>
-            </tr>
+            <!-- Dynamic rows will be inserted here -->
           </tbody>
         </table>
-      </div>
-      <div class="add-row-wrapper">
-        <button type="button" id="addRowBtn" class="btn add-btn" aria-label="নতুন সারি যোগ করুন">+ নতুন সারি</button>
       </div>
     </section>
 
     <section class="total-section">
-      <p id="totalCount" class="total-text">মোট ওয়েল্ডিং রড PIC যোগ হয়েছে: <span id="totalValue">0</span></p>
-      <div class="print-wrapper">
-        <button type="button" id="printBtn" class="btn print-btn">পিডিএফ ডাউনলোড</button>
-      </div>
+      <p id="totalCount" class="total-text">মোট পিস: <span id="totalValue">0</span></p>
     </section>
   </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="weldModalOverlay" aria-hidden="true">
+    <div class="modal weld-modal" role="dialog" aria-modal="true" aria-labelledby="weldModalTitle">
+      <div class="modal-header">
+        <h2 id="weldModalTitle">নতুন এন্ট্রি যোগ করুন</h2>
+        <button type="button" class="modal-close" id="weldModalClose" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label for="weldDate">তারিখ</label>
+          <input id="weldDate" type="date" />
+        </div>
+        <div class="form-row">
+          <label for="weldPacket">প্যাকেট</label>
+          <input id="weldPacket" type="text" placeholder="যেমন: 3.2mm/ব্র্যান্ড" />
+        </div>
+        <div class="form-row">
+          <label for="weldPieces">পিস</label>
+          <input id="weldPieces" type="number" min="1" step="1" placeholder="0" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="weldModalCancel" class="btn danger-btn">বাতিল</button>
+        <button type="button" id="weldModalSave" class="btn save-btn">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="waling-rod.js"></script>
 </body>
