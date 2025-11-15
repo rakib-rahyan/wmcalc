@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>কাজের হিসাব</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="work-page">
+  <header class="app-header work-header">
+    <div class="header-left">
+      <h1 class="page-title">এম ভি নাজেরা (MV Nazera)</h1>
+      <p class="page-subtitle">কাজের হিসাব</p>
+    </div>
+    <div class="header-right">
+      <div class="header-meta">
+        <span>আজকের তারিখ:</span>
+        <span class="date-badge" id="workToday">--</span>
+      </div>
+      <button type="button" id="workAddBtn" class="btn add-btn">যোগ করুন</button>
+      <button type="button" id="workPdfBtn" class="btn print-btn">পিডিএফ ডাউনলোড</button>
+    </div>
+  </header>
+
+  <main class="work-main">
+    <section class="table-section">
+      <div class="table-wrapper">
+        <table class="work-table" id="workTable" aria-describedby="workDate">
+          <thead>
+            <tr>
+              <th>তারিখ</th>
+              <th>নোট</th>
+              <th>টন</th>
+              <th>লম্ব (ফিট/ইঞ্চি)</th>
+              <th>প্রস্থ (ফিট/ইঞ্চি)</th>
+              <th>ঝালাই (ফিট/ইঞ্চি)</th>
+              <th>অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody id="workTbody">
+            <!-- Dynamic groups will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="workModalOverlay" aria-hidden="true">
+    <div class="modal work-modal" role="dialog" aria-modal="true" aria-labelledby="workModalTitle">
+      <div class="modal-header">
+        <h2 id="workModalTitle">নতুন কাজ যোগ করুন</h2>
+        <button type="button" class="modal-close" id="workModalClose" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label for="modalDate">তারিখ</label>
+          <input id="modalDate" type="date" />
+        </div>
+        <div class="form-row">
+          <label for="modalNote">নোট</label>
+          <div class="note-row">
+            <textarea id="modalNote" rows="3" placeholder="নোট লিখুন / বলুন..."></textarea>
+            <button type="button" id="voiceBtn" class="btn edit-btn" aria-pressed="false" title="ভয়েস ইনপুট">🎤</button>
+          </div>
+          <small class="voice-hint" id="voiceHint">ভয়েস: চালু করতে 🎤 চাপুন (সমর্থিত ব্রাউজার)</small>
+        </div>
+        <div class="form-row">
+          <label for="modalTon">টন</label>
+          <input id="modalTon" type="number" min="0" step="0.01" placeholder="0.00" />
+        </div>
+        <div class="form-row">
+          <label>লম্ব</label>
+          <div class="ftin">
+            <input id="lenFt" type="number" min="0" step="1" placeholder="ফিট" />
+            <input id="lenIn" type="number" min="0" step="1" max="11" placeholder="ইঞ্চি" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>প্রস্থ</label>
+          <div class="ftin">
+            <input id="widFt" type="number" min="0" step="1" placeholder="ফিট" />
+            <input id="widIn" type="number" min="0" step="1" max="11" placeholder="ইঞ্চি" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>ঝালাই</label>
+          <div class="ftin">
+            <input id="weldFt" type="number" min="0" step="1" placeholder="ফিট" />
+            <input id="weldIn" type="number" min="0" step="1" max="11" placeholder="ইঞ্চি" />
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="workModalCancel" class="btn danger-btn">বাতিল</button>
+        <button type="button" id="workModalSave" class="btn save-btn">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="work.js"></script>
+</body>
+</html>
