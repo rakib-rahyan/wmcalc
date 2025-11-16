@@ -17,7 +17,6 @@
   const modalNote = document.getElementById('modalNote');
   const voiceBtn = document.getElementById('voiceBtn');
   const voiceHint = document.getElementById('voiceHint');
-  const modalTon = document.getElementById('modalTon');
   const lenFt = document.getElementById('lenFt');
   const lenIn = document.getElementById('lenIn');
   const widFt = document.getElementById('widFt');
@@ -49,7 +48,6 @@
     modalOverlay.setAttribute('aria-hidden','false');
     modalDate.value = prefillDate || todayYYYYMMDD();
     modalNote.value = '';
-    modalTon.value = '';
     [lenFt,lenIn,widFt,widIn,weldFt,weldIn].forEach(el => { el.value=''; el.classList.remove('error'); });
     setTimeout(() => modalDate.focus(), 0);
   }
@@ -104,7 +102,7 @@
   });
 
   function clearErrors() {
-    [modalDate, modalTon, lenFt,lenIn,widFt,widIn,weldFt,weldIn, modalNote].forEach(el => el.classList.remove('error'));
+    [modalDate, lenFt,lenIn,widFt,widIn,weldFt,weldIn, modalNote].forEach(el => el.classList.remove('error'));
   }
 
   function validateModal() {
@@ -112,8 +110,6 @@
     let ok = true;
     if (!modalDate.value) { modalDate.classList.add('error'); ok = false; }
     // Note is optional, but keep UI clean
-    const ton = Number(modalTon.value);
-    if (!isFinite(ton) || ton < 0) { modalTon.classList.add('error'); ok = false; }
     const fields = [lenFt,lenIn,widFt,widIn,weldFt,weldIn];
     fields.forEach(el => { if (el.value && (!isFinite(Number(el.value)) || Number(el.value) < 0)) { el.classList.add('error'); ok = false; } });
     return ok;
@@ -134,7 +130,7 @@
     el.value = String(v);
   }
 
-  function addRow(dateYMD, note, ton, len, wid, weld) {
+  function addRow(dateYMD, note, len, wid, weld) {
     // locate group
     let groupRows = Array.from(tbody.querySelectorAll(`tr[data-date="${dateYMD}"]`));
     const displayDate = toDisplayDate(dateYMD);
@@ -145,14 +141,13 @@
       tr.innerHTML = `
         <td class="date-cell">${showDate ? `<span class="date-text">${displayDate}</span> <button class="date-add btn add-btn btn-xs" data-date="${dateYMD}" title="এই তারিখে নতুন কাজ যোগ করুন">+</button>` : ''}</td>
         <td class="note-cell">${note ? escapeHtml(note) : '<span class="placeholder">_</span>'}</td>
-        <td>${isFinite(ton)? ton.toFixed(2): '0.00'}</td>
         <td>${len.ft}'-${String(len.inch).padStart(2,'0')}"</td>
         <td>${wid.ft}'-${String(wid.inch).padStart(2,'0')}"</td>
         <td>${weld.ft}'-${String(weld.inch).padStart(2,'0')}"</td>
-          <td>
-            <button class="btn edit-btn row-edit" title="এই সারি সম্পাদনা করুন">সম্পাদনা</button>
-            <button class="btn danger-btn row-delete" title="এই সারি মুছুন">মুছুন</button>
-          </td>
+        <td>
+          <button class="btn edit-btn row-edit" title="এই সারি সম্পাদনা করুন">সম্পাদনা</button>
+          <button class="btn danger-btn row-delete" title="এই সারি মুছুন">মুছুন</button>
+        </td>
       `;
       return tr;
     }
@@ -214,7 +209,7 @@
 
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['তারিখ','নোট','টন','লম্ব (ফিট/ইঞ্চি)','প্রস্থ (ফিট/ইঞ্চি)','ঝালাই (ফিট/ইঞ্চি)'].forEach(t => {
+    ['তারিখ','নোট','লম্ব (ফিট/ইঞ্চি)','প্রস্থ (ফিট/ইঞ্চি)','ঝালাই (ফিট/ইঞ্চি)'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t; th.style.border = '1px solid #ccc'; th.style.background = '#f0f3f6'; th.style.padding = '5px 6px'; th.style.textAlign = 'left';
       headTr.appendChild(th);
@@ -234,7 +229,11 @@
         const cells = row.querySelectorAll('td');
         const dateCell = document.createElement('td');
         dateCell.textContent = idx===0 ? toDisplayDate(d) : '';
-        [dateCell].concat(Array.from(cells).slice(1,6).map(c => { const td = document.createElement('td'); td.innerHTML = c.innerHTML.replace(/<button[\s\S]*?<\/button>/,'').replace(/<span class="placeholder">_<\/span>/g, '_'); return td; })).forEach(td => {
+        [dateCell].concat(Array.from(cells).slice(1,5).map(c => {
+          const td = document.createElement('td');
+          td.innerHTML = c.innerHTML.replace(/<button[\s\S]*?<\/button>/g,'').replace(/<span class="placeholder">_<\/span>/g, '_');
+          return td;
+        })).forEach(td => {
           td.style.border='1px solid #ccc'; td.style.padding='5px 6px';
           tr.appendChild(td);
         });
@@ -266,6 +265,8 @@
     }
   }
 
+  // TON column fully removed from UI & logic, no runtime DOM patch needed.
+
   // Events
   addBtn.addEventListener('click', () => openModal());
   pdfBtn.addEventListener('click', generatePdf);
@@ -294,11 +295,11 @@
       const d = tr.dataset.date;
       // We could parse cells to prefill, but for now open with date only.
       openForDate(d);
-      } else if (t.matches('.row-delete')) {
-        const tr = t.closest('tr');
-        if (!tr) return;
-        tr.remove();
-        sortGroups();
+    } else if (t.matches('.row-delete')) {
+      const tr = t.closest('tr');
+      if (!tr) return;
+      tr.remove();
+      sortGroups();
     }
   });
 
@@ -306,11 +307,10 @@
     if (!validateModal()) return;
     const dateYMD = modalDate.value;
     const note = modalNote.value.trim();
-    const ton = Number(modalTon.value||0);
     const len = normalizeFtIn(lenFt.value, lenIn.value);
     const wid = normalizeFtIn(widFt.value, widIn.value);
     const weld = normalizeFtIn(weldFt.value, weldIn.value);
-    addRow(dateYMD, note, ton, len, wid, weld);
+    addRow(dateYMD, note, len, wid, weld);
     closeModal();
   });
 })();

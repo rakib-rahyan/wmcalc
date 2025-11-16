@@ -120,7 +120,7 @@
     table.style.fontSize = '12px';
     const thead = document.createElement('thead');
     const headTr = document.createElement('tr');
-    ['#','তারিখ','প্যাকেট','পিস'].forEach(t => {
+    ['#','তারিখ','প্যাকেট নাম','প্যাকেট'].forEach(t => {
       const th = document.createElement('th');
       th.textContent = t;
       th.style.border = '1px solid #ccc';
@@ -144,7 +144,7 @@
     table.append(thead, tbody);
 
     const total = document.createElement('div');
-    total.textContent = 'মোট পিস: ' + (totalValueEl.textContent || '0');
+    total.textContent = 'মোট প্যাকেট: ' + (totalValueEl.textContent || '0');
     total.style.marginTop = '10px';
     total.style.fontWeight = '600';
 
