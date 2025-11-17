@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ওয়েল্ডিং ক্যালকুলেশন</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="wcalc-page">
+  <header class="app-header wcalc-header">
+    <div class="header-left">
+      <h1 class="page-title">এম ভি নাজেরা (MV Nazera)</h1>
+      <p class="page-subtitle">ওয়েল্ডিং ক্যালকুলেশন</p>
+    </div>
+    <div class="header-right">
+      <div class="header-meta">
+        <span>আজকের তারিখ:</span>
+        <span class="date-badge" id="wcalcToday">--</span>
+      </div>
+      <button type="button" id="wcalcPdfBtn" class="btn print-btn">পিডিএফ ডাউনলোড</button>
+    </div>
+  </header>
+
+  <main class="work-main">
+    <section class="table-section" aria-labelledby="filtersTitle">
+      <h2 id="filtersTitle" class="visually-hidden">Filters</h2>
+      <div class="table-wrapper" style="margin-bottom:12px;">
+        <div class="filters" style="display:grid; gap:10px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); align-items:end;">
+          <div class="form-row">
+            <label for="wcalcDateInput">তারিখ</label>
+            <input id="wcalcDateInput" type="date" />
+          </div>
+          <div class="form-row">
+            <label for="wcalcOrientation">দিক</label>
+            <select id="wcalcOrientation">
+              <option value="Horizontal">Horizontal</option>
+              <option value="Vertical">Vertical</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="wcalcSide">পাশ</label>
+            <select id="wcalcSide">
+              <option value="Right">Right Side</option>
+              <option value="Left">Left Side</option>
+            </select>
+          </div>
+          <div class="form-row" style="align-items:center; grid-auto-flow:column; gap:8px;">
+            <input id="wcalcVCheck" type="checkbox" />
+            <label for="wcalcVCheck">V ওয়েল্ডিং</label>
+          </div>
+          <div class="form-row" style="align-items:center;">
+            <button type="button" id="wcalcAddBtn" class="btn add-btn">মাপ যোগ করুন</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="work-table" id="wcalcTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>মাপ (ফিট/ইঞ্চি)</th>
+              <th>অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody id="wcalcTbody">
+            <!-- rows go here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="wcalcModalOverlay" aria-hidden="true">
+    <div class="modal work-modal" role="dialog" aria-modal="true" aria-labelledby="wcalcModalTitle">
+      <div class="modal-header">
+        <h2 id="wcalcModalTitle">নতুন মাপ যোগ করুন</h2>
+        <button type="button" class="modal-close" id="wcalcModalClose" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label>মাপ</label>
+          <div class="ftin">
+            <input id="wcalcFt" type="number" min="0" step="1" placeholder="ফিট" />
+            <input id="wcalcIn" type="number" min="0" step="1" max="11" placeholder="ইঞ্চি" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="wcalcModalCancel" class="btn danger-btn">বাতিল</button>
+        <button type="button" id="wcalcModalSave" class="btn save-btn">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="welding.js"></script>
+</body>
+</html>
