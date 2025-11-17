@@ -11,7 +11,7 @@
   <header class="app-header wcalc-header">
     <div class="header-left">
       <h1 class="page-title">এম ভি নাজেরা (MV Nazera)</h1>
-      <p class="page-subtitle">ওয়েল্ডিং ক্যালকুলেশন</p>
+      <p class="page-subtitle">ঝালাই এর পরিমাপ</p>
     </div>
     <div class="header-right">
       <div class="header-meta">
@@ -41,13 +41,13 @@
           <div class="form-row">
             <label for="wcalcSide">পাশ</label>
             <select id="wcalcSide">
-              <option value="Right">Right Side</option>
-              <option value="Left">Left Side</option>
+              <option value="Right">ডান দিক</option>
+              <option value="Left">বাম দিক</option>
             </select>
           </div>
           <div class="form-row" style="align-items:center; grid-auto-flow:column; gap:8px;">
             <input id="wcalcVCheck" type="checkbox" />
-            <label for="wcalcVCheck">V ওয়েল্ডিং</label>
+            <label for="wcalcVCheck">V ঝালাই</label>
           </div>
           <div class="form-row" style="align-items:center;">
             <button type="button" id="wcalcAddBtn" class="btn add-btn">মাপ যোগ করুন</button>
@@ -67,6 +67,12 @@
           <tbody id="wcalcTbody">
             <!-- rows go here -->
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="1" class="sum-label">মোট</td>
+              <td id="wcalcTotal" class="sum-cell">0'-00"</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </section>
